@@ -58,9 +58,7 @@ appman_DATA = $(appman_PRE:man=@APP_MAN_SUFFIX@)
 
 CLEANFILES = bdftruncate $(appman_DATA)
 
-EXTRA_DIST = $(mapfiles_DATA) \
-	$(appman_PRE) \
-	fontutil.pc.in
+EXTRA_DIST = $(mapfiles_DATA) $(appman_PRE)
 
 MAINTAINERCLEANFILES = ChangeLog INSTALL
 
