@@ -70,6 +70,7 @@ SED = sed
 
 MAN_SUBSTS = \
         -e 's|__vendorversion__|"$(XORGRELSTRING)" "$(XORGMANNAME)"|' \
+        -e 's|__mapfilesdir__|$(mapfilesdir)|g' \
         -e 's|__appmansuffix__|$(APP_MAN_SUFFIX)|g'
 
 SUFFIXES = .$(APP_MAN_SUFFIX) .man
