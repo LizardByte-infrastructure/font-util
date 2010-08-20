@@ -19,6 +19,7 @@
 #  NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 #  CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+SUBDIRS = man
 bin_PROGRAMS = bdftruncate ucs2any
 
 AM_CFLAGS = $(CWARNFLAGS)
@@ -52,32 +53,11 @@ mapfiles_DATA = \
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = fontutil.pc
 
-appmandir = $(APP_MAN_DIR)
-appman_PRE = bdftruncate.man ucs2any.man
-appman_DATA = $(appman_PRE:man=@APP_MAN_SUFFIX@)
+CLEANFILES = bdftruncate
 
-CLEANFILES = bdftruncate $(appman_DATA)
-
-EXTRA_DIST = $(mapfiles_DATA) $(appman_PRE)
+EXTRA_DIST = $(mapfiles_DATA)
 
 MAINTAINERCLEANFILES = ChangeLog INSTALL
-
-# Strings to replace in man pages
-XORGRELSTRING = @PACKAGE_STRING@
-  XORGMANNAME = X Version 11
-
-SED = sed
-
-MAN_SUBSTS = \
-        -e 's|__vendorversion__|"$(XORGRELSTRING)" "$(XORGMANNAME)"|' \
-        -e 's|__mapfilesdir__|$(mapfilesdir)|g' \
-        -e 's|__appmansuffix__|$(APP_MAN_SUFFIX)|g'
-
-SUFFIXES = .$(APP_MAN_SUFFIX) .man
-
-.man.$(APP_MAN_SUFFIX):
-	$(AM_V_GEN)$(SED) $(MAN_SUBSTS) < $< > $@
-
 
 .PHONY: ChangeLog INSTALL
 
