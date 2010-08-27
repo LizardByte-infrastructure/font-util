@@ -138,7 +138,7 @@ AC_DEFUN([XORG_FONT_CHECK_ENCODING_LIST],[
 
 AC_DEFUN([XORG_FONT_REQUIRED_PROG],[
 	AC_PATH_PROG($1, $2)
-	if test x"$1" = x; then
+	if test x"$$1" = x; then
 		AC_MSG_ERROR([$2 is required to build $PACKAGE_NAME.])
 	fi
 ])
