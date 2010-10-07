@@ -114,7 +114,7 @@ AC_DEFUN([XORG_FONT_CHECK_ENCODING],[
 	AC_ARG_ENABLE(m4_tolower($1),
 		AS_HELP_STRING(m4_join([-], [--disable], m4_tolower($1)),
 				[Build $1 fonts (default: yes)]),
-		[AS_TR_SH($1)=$enableval], [AS_TR_SH($1)=yes])
+		[AS_TR_SH($1)=$enableval])
 	AC_MSG_CHECKING([whether to build $1 fonts])
 	AC_MSG_RESULT($[AS_TR_SH($1)])
 	AM_CONDITIONAL(AS_TR_SH($1), [test "x$AS_TR_SH($1)" = xyes])
@@ -123,9 +123,19 @@ AC_DEFUN([XORG_FONT_CHECK_ENCODING],[
 # XORG_FONT_CHECK_ENCODING_LIST(encoding1 encoding2....)
 # -----------------------------------------------------
 # Minimum version: 1.1.0
-# Call XORG_FONT_CHECK_ENCODING for multiple encodings at once
+# Call XORG_FONT_CHECK_ENCODING for multiple encodings at once.
+# Add a shorthand --enable/disable-all-encodings option.
 
 AC_DEFUN([XORG_FONT_CHECK_ENCODING_LIST],[
+	AC_ARG_ENABLE([all-encodings],
+		AS_HELP_STRING([--disable-all-encodings],
+				[Disable building of all font encodings]),
+		[m4_foreach_w([enc], [$1], [
+			AS_TR_SH(enc)=$enableval
+		])],
+		[m4_foreach_w([enc], [$1], [
+			AS_TR_SH(enc)=yes
+		])])
 	m4_foreach_w([enc], [$1], [XORG_FONT_CHECK_ENCODING(enc)])
 ]) # XORG_FONT_CHECK_ENCODING_LIST
 
