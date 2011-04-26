@@ -178,6 +178,31 @@ AC_DEFUN([XORG_FONT_FCCACHE],[
 	AC_SUBST([RUN_FCCACHE])
 ])
 
+# XORG_FONT_MKFONTDIR()
+# -------------------
+# Minimum version: 1.3.0
+#
+# Set MKFONTDIR to path to mkfontdir.
+#
+# If cross-compiling, and if mkdir is not found, use a shell command
+# which warns mkfontdir needs to be run on the target
+#
+# If not cross-compiling, mkfontdir must be found
+#
+AC_DEFUN([XORG_FONT_MKFONTDIR],[
+	if test x"$cross_compiling" != x"no" ; then
+		AC_PATH_PROG(MKFONTDIR, mkfontdir, "")
+		MKFONTDIR_WARN='echo "** Warning: mkfontdir not run" ; echo "** Run mkfontdir manually on host system"'
+
+		if test x"$MKFONTDIR" = x; then
+			MKFONTDIR="${MKFONTDIR_WARN} ; echo '** mkfontdir'"
+		fi
+	else
+		XORG_FONT_REQUIRED_PROG(MKFONTDIR, mkfontdir)
+	fi
+
+	AC_SUBST([MKFONTDIR])
+])
 
 # XORG_FONT_COMMON_UTILS()
 # ------------------------
@@ -187,7 +212,7 @@ AC_DEFUN([XORG_FONT_FCCACHE],[
 
 AC_DEFUN([XORG_FONT_COMMON_UTILS],[
 	XORG_FONT_FCCACHE
-	XORG_FONT_REQUIRED_PROG(MKFONTDIR, mkfontdir)
+	XORG_FONT_MKFONTDIR
 ])
 
 # XORG_FONT_SCALED_UTILS()
