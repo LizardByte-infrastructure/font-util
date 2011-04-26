@@ -160,15 +160,16 @@ AC_DEFUN([XORG_FONT_REQUIRED_PROG],[
 #
 # Set FCCACHE to path to fc-cache (fontconfig cache builder) if found
 # Set RUN_FCCACHE to a rule suitable for substituting into a makefile
-# to run fc-cache if found and not installing to $DESTDIR
+# to run fc-cache if found and not installing to $DESTDIR and not
+# cross-compiling
 #
 # fc-cache is optional, not required, and should be skipped when making
-# packages (installing to $DESTDIR).
+# packages (installing to $DESTDIR) or cross-compiling
 #
 AC_DEFUN([XORG_FONT_FCCACHE],[
 	AC_PATH_PROG(FCCACHE, fc-cache)
 	FCCACHE_WARN='echo "** Warning: fonts.cache not built" ; echo "** Generate this file manually on host system using fc-cache"'
-	if test x"$FCCACHE" = x ; then
+	if test x"$FCCACHE" = x || test x"$cross_compiling" != x"no" ; then
 		RUN_FCCACHE="${FCCACHE_WARN}"
 	else
 		RUN_FCCACHE='@(if test -z "$(DESTDIR)"; then echo $(FCCACHE) $(fontdir); $(FCCACHE) $(fontdir); else'
