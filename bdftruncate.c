@@ -43,14 +43,10 @@
 
 static int iswide(unsigned int);
 static void usage(void);
-
-static int opt_minus_w;
-static int opt_plus_w;
-static int removewide;
-static unsigned long threshold;
+static int parse_threshold(const char *str, unsigned long *threshold);
 
 static int
-parse_threshold(const char *str)
+parse_threshold(const char *str, unsigned long *threshold)
 {
 	int base;
 	char *end_ptr;
@@ -63,14 +59,14 @@ parse_threshold(const char *str)
 		base = 10;
 
 	errno = 0;
-	threshold = strtoul(str, &end_ptr, base);
-	if (errno != 0 || threshold == 0)
+	*threshold = strtoul(str, &end_ptr, base);
+	if (errno != 0 || *threshold == 0)
 		return 1;
 	return 0;
 }
 
 static void
-process_line(const char *line)
+process_line(const char *line, int removewide, unsigned long threshold)
 {
 	if (strncmp(line, "ENCODING", 8) == 0) {
 		unsigned long enc;
@@ -120,6 +116,9 @@ int
 main(int argc, char **argv)
 {
 	int removewide;
+	unsigned long threshold;
+	int opt_minus_w;
+	int opt_plus_w;
 	char *line, *input_ptr;
 	size_t line_len, rest_len;
 
@@ -139,7 +138,7 @@ main(int argc, char **argv)
 
 	if (argc != 1 || (opt_plus_w && opt_minus_w))
 		usage();
-	if (parse_threshold(*argv)) {
+	if (parse_threshold(*argv, &threshold)) {
 		fprintf(stderr, "Illegal threshold %s\n", *argv);
 		usage();
 	}
@@ -178,7 +177,7 @@ main(int argc, char **argv)
 				break;
 			}
 		}
-		process_line(line);
+		process_line(line, removewide, threshold);
 	}
 
 	return EXIT_SUCCESS;
