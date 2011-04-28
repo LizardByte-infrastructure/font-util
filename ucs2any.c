@@ -737,7 +737,6 @@ main(int argc, char *argv[])
 			if (p[0] == '0' && (p[1] == 'x' || p[1] == 'X')) {
 				ucs = strtol(p+2, &endp, 16);
 				if (*endp == '\0') goto bad;
-				p = endp;
 			} else
 				goto bad;
 
