@@ -117,8 +117,8 @@ main(int argc, char **argv)
 {
 	int removewide;
 	unsigned long threshold;
-	int opt_minus_w;
-	int opt_plus_w;
+	int opt_minus_w = 0;
+	int opt_plus_w = 0;
 	char *line, *input_ptr;
 	size_t line_len, rest_len;
 
