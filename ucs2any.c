@@ -173,7 +173,7 @@ typedef struct {
 } da_t;
 
 static da_t *
-da_new(char *name)
+da_new(const char *name)
 {
 	da_t *da;
 
@@ -246,7 +246,7 @@ da_add(da_t *da, int key, void *value)
 }
 
 static void 
-da_add_str(da_t *da, int key, char *value)
+da_add_str(da_t *da, int key, const char *value)
 {
 	da_add(da, key, value?zstrdup(value):NULL);
 }
