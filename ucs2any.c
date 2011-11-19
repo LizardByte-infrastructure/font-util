@@ -447,8 +447,8 @@ usage(void) {
 static int 
 chars_compare(const void *aa, const void *bb)
 {
-	int a = *(int *)aa;
-	int b = *(int *)bb;
+	int a = *(const int *)aa;
+	int b = *(const int *)bb;
 
 	return a - b;
 }
