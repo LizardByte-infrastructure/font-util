@@ -41,8 +41,15 @@
 #include <stdlib.h>
 #include <string.h>
 
+#if (defined(__GNUC__) && ((__GNUC__ * 100 + __GNUC_MINOR__) >= 205))	\
+        || (defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590))
+# define ATTR_NORETURN __attribute((noreturn))
+#else
+# define ATTR_NORETURN
+#endif /* GNUC  */
+
 static int iswide(unsigned int);
-static void usage(void);
+static void usage(void) ATTR_NORETURN;
 static int parse_threshold(const char *str, unsigned long *threshold);
 
 static int
