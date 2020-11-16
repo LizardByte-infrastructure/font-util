@@ -752,9 +752,11 @@ main(int argc, char *argv[])
 					da_add_int(map, target, ucs);
 				} else {
 					if (!((is_blockgraphics(ucs) &&
+						slant != NULL &&
 						strcmp(slant, "R") != 0) ||
 						(ucs >= 0x200e &&
-						ucs <= 0x200f)))							{
+						ucs <= 0x200f)))
+					{
 						fprintf(stderr,
 							"No glyph for character U+%04X (0x%02x) available.\n",
 							ucs, target);
@@ -780,8 +782,9 @@ main(int argc, char *argv[])
 		}
 
 		if (dec_chars == 1 ||
-			(dec_chars == -1 && strcmp(slant, "R") == 0 &&
-			strcmp(spacing, "C") == 0))
+			(dec_chars == -1 &&
+			 (slant != NULL && strcmp(slant, "R") == 0) &&
+			 (spacing != NULL && strcmp(spacing, "C") == 0)))
 		{
 			/* add DEC VT100 graphics characters in the range 1-31
 			   (as expected by some old xterm versions) */
