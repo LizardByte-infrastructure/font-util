@@ -586,6 +586,12 @@ main(int argc, char *argv[])
 				char * term;
 				/* slightly simplistic check ... */
 				zquotedcpy(&fontname, nextc);
+				if (fontname == NULL) {
+					fprintf(stderr,
+						"%s: FONT name in '%s' is invalid string '%s'!\n",
+						my_name, fsource, nextc);
+					exit(1);
+				}
 				if ((term = strstr(fontname, "-ISO10646-1")) == NULL) {
 					fprintf(stderr,
 						"%s: FONT name in '%s' is '%s' and not '*-ISO10646-1'!\n",
@@ -621,11 +627,23 @@ main(int argc, char *argv[])
 			} else if ((nextc = startswith(l, "SLANT")) != NULL)
 			{
 				zquotedcpy(&slant, nextc);
+				if (slant == NULL) {
+					fprintf(stderr,
+						"%s: SLANT property in '%s' is invalid string '%s'!\n",
+						my_name, fsource, nextc);
+					exit(1);
+				}
 				slant_index = ++nextheader;
 				da_add_str(headers, slant_index, NULL);
 			} else if ((nextc = startswith(l, "SPACING")) != NULL)
 			{
 				zquotedcpy(&spacing, nextc);
+				if (spacing == NULL) {
+					fprintf(stderr,
+						"%s: SPACING property in '%s' is invalid string '%s'!\n",
+						my_name, fsource, nextc);
+					exit(1);
+				}
 				zstrtoupper(spacing);
 				spacing_index = ++nextheader;
 				da_add_str(headers, spacing_index, NULL);
