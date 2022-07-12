@@ -32,7 +32,7 @@
  * derive from a single ISO10646-1 master font a whole set of 8-bit
  * fonts in all ISO 8859 and various other encodings. (Hopefully
  * a future XFree86 release will have a similar facility built into
- * the server, which can reencode ISO10646-1 on the fly, because
+ * the server, which can re-encode ISO10646-1 on the fly, because
  * storing the same fonts in many different encodings is clearly
  * a waste of storage capacity).
 */
@@ -725,7 +725,7 @@ main(int argc, char *argv[])
 			free(temp);
 		} else {
 			fprintf(stderr, "map file argument \"%s\" needs a "
-			    "coresponding registry-encoding argument\n", fmap);
+			    "corresponding registry-encoding argument\n", fmap);
 			exit(0);
 		}
 
