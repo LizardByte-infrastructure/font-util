@@ -43,15 +43,25 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if (defined(__GNUC__) && ((__GNUC__ * 100 + __GNUC_MINOR__) >= 205))	\
-        || (defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590))
+#ifndef __has_attribute
+# define __has_attribute(x) 0  /* Compatibility with older compilers. */
+#endif
+#ifndef __has_c_attribute
+# define __has_c_attribute(x) 0  /* Compatibility with pre-C23 compilers. */
+#endif
+
+#if __has_c_attribute(noreturn)
+# define ATTR_NORETURN [[noreturn]]
+#elif __has_attribute(noreturn) \
+    || (defined(__GNUC__) && ((__GNUC__ * 100 + __GNUC_MINOR__) >= 205)) \
+    || (defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590))
 # define ATTR_NORETURN __attribute((noreturn))
 #else
 # define ATTR_NORETURN
-#endif /* GNUC  */
+#endif
 
 static int iswide(unsigned int);
-static void usage(int) ATTR_NORETURN;
+ATTR_NORETURN static void usage(int);
 static int parse_threshold(const char *str, unsigned long *threshold);
 
 static int
