@@ -51,7 +51,7 @@
 #endif /* GNUC  */
 
 static int iswide(unsigned int);
-static void usage(void) ATTR_NORETURN;
+static void usage(int) ATTR_NORETURN;
 static int parse_threshold(const char *str, unsigned long *threshold);
 
 static int
@@ -134,7 +134,7 @@ main(int argc, char **argv)
 	--argc;
 	++argv;
 	if (argc == 0)
-		usage();
+		usage(EXIT_FAILURE);
 
 	if (strcmp(*argv, "-w") == 0 || strcmp(*argv, "+w") == 0) {
 		if (**argv == '-')
@@ -144,12 +144,19 @@ main(int argc, char **argv)
 		--argc;
 		++argv;
 	}
+	else if (strcmp(*argv, "--help") == 0) {
+		usage(EXIT_SUCCESS);
+	}
+	else if (strcmp(*argv, "--version") == 0) {
+		puts(PACKAGE_STRING);
+		exit(EXIT_SUCCESS);
+	}
 
 	if (argc != 1 || (opt_plus_w && opt_minus_w))
-		usage();
+		usage(EXIT_FAILURE);
 	if (parse_threshold(*argv, &threshold)) {
 		fprintf(stderr, "Illegal threshold %s\n", *argv);
-		usage();
+		usage(EXIT_FAILURE);
 	}
 
 	if (opt_minus_w)
@@ -213,10 +220,11 @@ iswide(unsigned int ucs)
 }
 
 static void
-usage(void)
+usage(int exitstatus)
 {
 	fprintf(stderr,
 	    "Usage: bdftruncate [+w|-w] threshold <source.bdf >destination.bdf\n"
+            "   or: bdftruncate [--help|--version]\n"
 	    "\n"
 	    "Example:\n"
 	    "\n"
@@ -226,5 +234,5 @@ usage(void)
 	    ">= 0x3200 will only be stored unencoded (i.e., ENCODING -1).\n"
 	    "Option -w removes East Asian Wide and East Asian FullWidth characters\n"
 	    "(default if threshold <= 0x3200), and option +w keeps them.\n");
-	exit(EXIT_FAILURE);
+	exit(exitstatus);
 }

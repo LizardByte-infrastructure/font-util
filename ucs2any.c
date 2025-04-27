@@ -426,6 +426,7 @@ static void
 usage(void) {
 	printf("%s", "\n"
 "Usage: ucs2any [+d|-d] <source-name> { <mapping-file> <registry-encoding> }\n"
+"   or: ucs2any [--help|--version]\n"
 "\n"
 "where\n"
 "\n"
@@ -545,6 +546,14 @@ main(int argc, char *argv[])
 	} else if (strcmp(argv[ai], "-d") == 0) {
 		ai++;
 		dec_chars = 0;
+	}
+	else if (strcmp(argv[ai], "--help") == 0) {
+		usage();
+		exit(EXIT_SUCCESS);
+	}
+	else if (strcmp(argv[ai], "--version") == 0) {
+		puts(PACKAGE_STRING);
+		exit(EXIT_SUCCESS);
 	}
 	if (ai >= argc) {
 		usage();
