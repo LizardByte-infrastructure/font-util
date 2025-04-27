@@ -37,6 +37,9 @@ m4_ifndef([XORG_MACROS_VERSION],
 XORG_MACROS_VERSION(1.8)
 XORG_DEFAULT_OPTIONS
 
+# Checks for typedefs, structures, and compiler characteristics.
+AC_SYS_LARGEFILE
+
 AC_MSG_CHECKING([for root directory for font files])
 fontrootdir='${datadir}/fonts/X11'
 AC_ARG_WITH(fontrootdir, [AS_HELP_STRING([--with-fontrootdir=DIR],

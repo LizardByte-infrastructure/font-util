@@ -37,6 +37,8 @@
  * a waste of storage capacity).
 */
 
+#include "config.h"
+
 #include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>

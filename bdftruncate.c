@@ -34,6 +34,8 @@
  * a threshold code value are stored unencoded.
  */
 
+#include "config.h"
+
 #include <ctype.h>
 #include <errno.h>
 #include <limits.h>
