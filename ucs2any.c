@@ -111,7 +111,7 @@ zstrdup(const char *str)
 	return retval;
 }
 
-static void 
+static void
 zstrcpy(char **dest, const char *source)
 {
 	if (*dest != NULL)
@@ -119,7 +119,7 @@ zstrcpy(char **dest, const char *source)
 	*dest = zstrdup(source);
 }
 
-static void 
+static void
 zquotedcpy(char **dest, const char *source)
 {
 	const char *start, *end;
@@ -140,7 +140,7 @@ zquotedcpy(char **dest, const char *source)
 	}
 }
 
-static void 
+static void
 zstrcat(char **dest, const char *source)
 {
 	size_t dest_size = 1;
@@ -153,7 +153,7 @@ zstrcat(char **dest, const char *source)
 	strcpy(*dest + dest_size - 1, source);
 }
 
-static void 
+static void
 zstrtoupper(char *s)
 {
 	char *t;
@@ -204,7 +204,7 @@ da_fetch(da_t *da, int key)
 	return r;
 }
 
-static int 
+static int
 da_fetch_int(da_t *da, int key)
 {
 	int *t;
@@ -218,7 +218,7 @@ da_fetch_int(da_t *da, int key)
 #define da_fetch_str(a,k)	\
 	(char *)da_fetch(a,k)
 
-static void 
+static void
 da_add(da_t *da, int key, void *value)
 {
 	int i = da->size;
@@ -253,13 +253,13 @@ da_add(da_t *da, int key, void *value)
 	}
 }
 
-static void 
+static void
 da_add_str(da_t *da, int key, const char *value)
 {
 	da_add(da, key, value?zstrdup(value):NULL);
 }
 
-static void 
+static void
 da_add_int(da_t *da, int key, int value)
 {
 	int *v;
@@ -272,7 +272,7 @@ da_add_int(da_t *da, int key, int value)
 #define da_count(da) (da->count)
 #define da_size(da) (da->size)
 
-static void 
+static void
 da_clear(da_t *da)
 {
 	int i;
@@ -291,7 +291,7 @@ da_clear(da_t *da)
 #define TYPICAL_LINE_SIZE (80)
 
 /* read a line and strip trailing whitespace */
-static int 
+static int
 read_line(FILE *fp, char **buffer)
 {
 	int buffer_size = TYPICAL_LINE_SIZE;
@@ -374,14 +374,14 @@ static int decmap[decmap_size] = {
 	0x00B7  /* MIDDLE DOT */
 };
 
-static int 
+static int
 is_control(int ucs)
 {
 	return ((ucs >= 0x00 && ucs <= 0x1f) ||
 		(ucs >= 0x7f && ucs <= 0x9f));
 }
 
-static int 
+static int
 is_blockgraphics(int ucs)
 {
 	return ucs >= 0x2500 && ucs <= 0x25FF;
@@ -422,7 +422,7 @@ combine_bbx(int awidth, int aheight, int axoff, int ayoff,
 	return r;
 }
 
-static void 
+static void
 usage(void) {
 	printf("%s", "\n"
 "Usage: ucs2any [+d|-d] <source-name> { <mapping-file> <registry-encoding> }\n"
@@ -453,7 +453,7 @@ usage(void) {
 "\n");
 }
 
-static int 
+static int
 chars_compare(const void *aa, const void *bb)
 {
 	int a = *(const int *)aa;
@@ -480,7 +480,7 @@ startswith(const char *string, const char *pattern)
 	return string;
 }
 
-int 
+int
 main(int argc, char *argv[])
 {
 	int ai = 1;
@@ -848,7 +848,7 @@ main(int argc, char *argv[])
 		for (i = 0; i < j; i++) {
 			ucs = da_fetch_int(map, chars[i]);
 			zstrcpy(&t, da_fetch_str(my_char, ucs));
-			if ((nextc = startswith(t, "BBX")) != NULL 
+			if ((nextc = startswith(t, "BBX")) != NULL
 			    || (nextc = strstr(t, "\nBBX")) != NULL)
 			{
 				char *endp;
