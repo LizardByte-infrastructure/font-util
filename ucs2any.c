@@ -94,6 +94,25 @@ zrealloc(void *ptr, size_t size)
 	return temp;
 }
 
+static void *
+zreallocarray(void *ptr, size_t num, size_t size)
+{
+	void *temp;
+#ifdef HAVE_REALLOCARRAY
+	temp = reallocarray(ptr, num, size);
+#else
+	if ((num > 0) && ((SIZE_MAX / num) < size))
+	    temp = NULL;
+	else
+	    temp = realloc(ptr, num * size);
+#endif
+	if (temp == NULL) {
+		perror(my_name);
+		exit(errno);
+	}
+	return temp;
+}
+
 static char *
 zstrdup(const char *str)
 {
@@ -230,8 +249,8 @@ da_add(da_t *da, int key, void *value)
 		}
 		if (key >= da->size) {
 			da->size = key + 1;
-			da->values = zrealloc(da->values,
-				da->size * sizeof(void *));
+			da->values = zreallocarray(da->values,
+				da->size, sizeof(void *));
 			for (; i < da->size; i++)
 				da->values[i] = NULL;
 		}
